@@ -1,13 +1,56 @@
+# from rest_framework import generics
+# from .models import Student
+# from .serializers import StudentSerializer
+
+# # GET (List all students) and POST (Create a new student)
+# class StudentListCreateAPIView(generics.ListCreateAPIView):
+#     queryset = Student.objects.all()
+#     serializer_class = StudentSerializer
+
+# # GET (Retrieve one), PUT (Update), and DELETE (Destroy a student)
+# class StudentRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = Student.objects.all()
+#     serializer_class = StudentSerializer
+
+from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from rest_framework import generics
 from .models import Student
 from .serializers import StudentSerializer
 
-# GET (List all students) and POST (Create a new student)
+# ==========================================
+# 1. HTML WEB VIEWS (For Humans)
+# ==========================================
+class StudentListView(ListView):
+    model = Student
+    template_name = 'records/student_list.html'
+    context_object_name = 'students'
+
+class StudentCreateView(CreateView):
+    model = Student
+    template_name = 'records/student_form.html'
+    fields = ['first_name', 'last_name', 'email', 'course']
+    success_url = reverse_lazy('student_list')
+
+class StudentUpdateView(UpdateView):
+    model = Student
+    template_name = 'records/student_form.html'
+    fields = ['first_name', 'last_name', 'email', 'course']
+    success_url = reverse_lazy('student_list')
+
+class StudentDeleteView(DeleteView):
+    model = Student
+    template_name = 'records/student_confirm_delete.html'
+    success_url = reverse_lazy('student_list')
+
+
+# ==========================================
+# 2. API VIEWS (For Machines/Frontend Devs)
+# ==========================================
 class StudentListCreateAPIView(generics.ListCreateAPIView):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
 
-# GET (Retrieve one), PUT (Update), and DELETE (Destroy a student)
 class StudentRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
