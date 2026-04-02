@@ -5,6 +5,7 @@ from rest_framework import generics
 from .models import Student
 from .serializers import StudentSerializer
 from rest_framework.permissions import IsAuthenticated
+from django.contrib.auth.models import User
 
 # ==========================================
 # 1. HTML WEB VIEWS (For Humans)
