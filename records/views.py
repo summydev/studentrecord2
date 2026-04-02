@@ -1,22 +1,10 @@
-# from rest_framework import generics
-# from .models import Student
-# from .serializers import StudentSerializer
-
-# # GET (List all students) and POST (Create a new student)
-# class StudentListCreateAPIView(generics.ListCreateAPIView):
-#     queryset = Student.objects.all()
-#     serializer_class = StudentSerializer
-
-# # GET (Retrieve one), PUT (Update), and DELETE (Destroy a student)
-# class StudentRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
-#     queryset = Student.objects.all()
-#     serializer_class = StudentSerializer
-
+ 
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from rest_framework import generics
 from .models import Student
 from .serializers import StudentSerializer
+from rest_framework.permissions import IsAuthenticated
 
 # ==========================================
 # 1. HTML WEB VIEWS (For Humans)
@@ -50,7 +38,14 @@ class StudentDeleteView(DeleteView):
 class StudentListCreateAPIView(generics.ListCreateAPIView):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
+    permission_classes = [IsAuthenticated] 
 
 class StudentRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
+    permission_classes = [IsAuthenticated]
+# NEW: The Signup View
+class RegisterAPIView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    permission_classes = [AllowAny] # This leaves the door open for new users
+    serializer_class = RegisterSerializer

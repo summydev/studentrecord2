@@ -11,4 +11,5 @@ urlpatterns = [
     # API Routes (JSON)
     path('api/students/', views.StudentListCreateAPIView.as_view(), name='api_student_list_create'),
     path('api/students/<int:pk>/', views.StudentRetrieveUpdateDestroyAPIView.as_view(), name='api_student_detail'),
+    path('api/register/', views.RegisterAPIView.as_view(), name='api_register'),
 ]
